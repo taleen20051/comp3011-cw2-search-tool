@@ -1,23 +1,22 @@
-"""
-Main command-line interface for the search tool.
-"""
-
 from crawler import crawl_website
+from indexer import build_inverted_index
 
 
 def main():
-    """
-    Run a temporary crawler demo.
-    """
     pages = crawl_website()
+    index = build_inverted_index(pages)
 
-    print("\nCrawl complete.")
-    print(f"Total pages crawled: {len(pages)}\n")
+    print(f"Total unique words: {len(index)}")
 
-    for page in pages[:3]:
-        print(f"URL: {page['url']}")
-        print(f"Text preview: {page['text'][:200]}")
-        print("-" * 60)
+    word = "life"
+    if word in index:
+        print(f"\nWord '{word}' found in:")
+        for url, data in index[word].items():
+            print(f"- {url}")
+            print(f"  frequency: {data['frequency']}")
+            print(f"  positions: {data['positions'][:10]}")
+    else:
+        print(f"Word '{word}' not found.")
 
 
 if __name__ == "__main__":
