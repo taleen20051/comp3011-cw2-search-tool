@@ -16,10 +16,12 @@ def sample_index():
         "good": {
             "page1": {"frequency": 1, "positions": [4]},
             "page3": {"frequency": 1, "positions": [1]},
+            "page5": {"frequency": 3, "positions": [2, 7, 9]},
         },
         "friends": {
             "page1": {"frequency": 1, "positions": [5]},
             "page4": {"frequency": 1, "positions": [2]},
+            "page5": {"frequency": 2, "positions": [3, 8]},
         },
     }
 
@@ -51,12 +53,12 @@ def test_print_word_returns_none_for_missing_word():
     assert result is None
 
 
-def test_find_query_returns_pages_containing_all_words():
+def test_find_query_returns_pages_containing_all_words_ranked_by_score():
     index = sample_index()
 
     result = find_query(index, "good friends")
 
-    assert result == ["page1"]
+    assert result == [("page5", 5), ("page1", 2)]
 
 
 def test_find_query_returns_empty_list_when_word_missing():

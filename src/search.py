@@ -26,14 +26,21 @@ def print_word(index, word):
 
 def find_query(index, query):
     """
-    Find pages that contain all words in the query.
+    Find pages that contain all words in the query, ranked by total term frequency.
+
+    Ranking method:
+    - Only pages containing all query words are returned.
+    - Each matching page gets a score equal to the sum of the frequencies
+      of all query words on that page.
+    - Results are sorted by descending score, then alphabetically by URL.
 
     Args:
         index: The inverted index dictionary.
         query: A search query string.
 
     Returns:
-        A list of matching page URLs sorted alphabetically.
+        A list of tuples in the form:
+        [(page_url, score), ...]
     """
     query_words = tokenize(query)
 
@@ -51,4 +58,10 @@ def find_query(index, query):
 
     matching_pages = set.intersection(*page_sets)
 
-    return sorted(matching_pages)
+    ranked_results = []
+    for page_url in matching_pages:
+        score = sum(index[word][page_url]["frequency"] for word in query_words)
+        ranked_results.append((page_url, score))
+
+    ranked_results.sort(key=lambda item: (-item[1], item[0]))
+    return ranked_results

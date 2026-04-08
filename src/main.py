@@ -12,10 +12,14 @@ def main():
     index = None
 
     print("Simple Search Engine CLI")
-    print("Commands: build, load, print <word>, find <query>, quit")
+    print("Commands: build, load, print <word>, find <query>, quit, exit")
 
     while True:
-        command = input("\nEnter command: ").strip()
+        try:
+            command = input("\nEnter command: ").strip()
+        except KeyboardInterrupt:
+            print("\nGoodbye!")
+            break
 
         if command == "build":
             print("Building index...")
@@ -59,16 +63,16 @@ def main():
             if not results:
                 print("No results found.")
             else:
-                print(f"\nPages containing '{query}':")
-                for url in results:
-                    print(f"- {url}")
+                print(f"\nRanked results for '{query}':")
+                for url, score in results:
+                    print(f"- {url} (score: {score})")
 
-        elif command == "quit":
+        elif command in {"quit", "exit"}:
             print("Goodbye!")
             break
 
         else:
-            print("Invalid command. Use: build, load, print <word>, find <query>, quit")
+            print("Invalid command. Use: build, load, print <word>, find <query>, quit, exit")
 
 
 if __name__ == "__main__":
