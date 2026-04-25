@@ -17,12 +17,6 @@ REQUEST_TIMEOUT = 10
 def extract_page_text(soup):
     """
     Extract all quote text from a BeautifulSoup page object.
-
-    Args:
-        soup: Parsed HTML page.
-
-    Returns:
-        A single string containing all quote text on the page.
     """
     quote_elements = soup.find_all("div", class_="quote")
     quotes = []
@@ -37,14 +31,7 @@ def extract_page_text(soup):
 
 def find_next_page_url(soup, current_url):
     """
-    Find the URL of the next page from the pagination controls.
-
-    Args:
-        soup: Parsed HTML page.
-        current_url: The current page URL.
-
-    Returns:
-        The absolute URL of the next page, or None if there is no next page.
+    Find the absolute URL of the next page.
     """
     next_list_item = soup.find("li", class_="next")
     if not next_list_item:
@@ -59,12 +46,7 @@ def find_next_page_url(soup, current_url):
 
 def crawl_website():
     """
-    Crawl quotes.toscrape.com and return page data.
-
-    Returns:
-        A list of dictionaries, where each dictionary contains:
-        - url: page URL
-        - text: all quote text found on that page
+    Crawl quotes.toscrape.com and return a list of page dictionaries.
     """
     crawled_pages = []
     visited_urls = set()

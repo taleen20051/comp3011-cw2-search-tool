@@ -3,12 +3,14 @@ Main command-line interface for the search engine.
 """
 
 from crawler import crawl_website
-from indexer import build_inverted_index, save_index, load_index
-from search import print_word, find_query
+from indexer import build_inverted_index, load_index, save_index
+from search import find_query, print_word
 
 
 def main():
-    """Run the interactive command-line shell."""
+    """
+    Run the interactive command-line shell.
+    """
     index = None
 
     print("Simple Search Engine CLI")
@@ -52,6 +54,9 @@ def main():
                     print(f"  frequency: {data['frequency']}")
                     print(f"  positions: {data['positions']}")
 
+        elif command == "print":
+            print("Please provide a word. Example: print nonsense")
+
         elif command.startswith("find "):
             if index is None:
                 print("No index loaded. Use 'build' or 'load' first.")
@@ -66,6 +71,9 @@ def main():
                 print(f"\nRanked results for '{query}':")
                 for url, score in results:
                     print(f"- {url} (score: {score})")
+
+        elif command == "find":
+            print("Please provide a query. Example: find good friends")
 
         elif command in {"quit", "exit"}:
             print("Goodbye!")
