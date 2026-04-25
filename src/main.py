@@ -1,6 +1,4 @@
-"""
-Main command-line interface for the search engine.
-"""
+# Main command-line interface for the search engine.
 
 from crawler import crawl_website
 from indexer import build_inverted_index, load_index, save_index
@@ -8,9 +6,7 @@ from search import find_query, print_word
 
 
 def main():
-    """
-    Run the interactive command-line shell.
-    """
+    # Run the interactive command-line shell.
     index = None
 
     print("Simple Search Engine CLI")
@@ -18,12 +14,14 @@ def main():
 
     while True:
         try:
+            # Read a command from the user.
             command = input("\nEnter command: ").strip()
         except KeyboardInterrupt:
             print("\nGoodbye!")
             break
 
         if command == "build":
+            # Crawl the website, build the index, and save it.
             print("Building index...")
             pages = crawl_website()
             index = build_inverted_index(pages)
@@ -31,6 +29,7 @@ def main():
             print("Index built and saved successfully.")
 
         elif command == "load":
+            # Load an existing index file.
             try:
                 index = load_index()
                 print("Index loaded successfully.")
@@ -38,6 +37,7 @@ def main():
                 print(error)
 
         elif command.startswith("print "):
+            # Display index data for a single word.
             if index is None:
                 print("No index loaded. Use 'build' or 'load' first.")
                 continue
@@ -58,6 +58,7 @@ def main():
             print("Please provide a word. Example: print nonsense")
 
         elif command.startswith("find "):
+            # Search for pages containing the query words.
             if index is None:
                 print("No index loaded. Use 'build' or 'load' first.")
                 continue

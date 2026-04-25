@@ -1,12 +1,13 @@
 from pathlib import Path
 import sys
 
-# Make src/ importable
+# Make src/ importable when running pytest from the project root.
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
 
 from indexer import build_inverted_index, load_index, save_index, tokenize
 
 
+# Tests core index structure, frequency counts, and word positions.
 def test_build_inverted_index_basic():
     pages = [
         {
@@ -32,6 +33,7 @@ def test_build_inverted_index_basic():
     assert index["life"]["page2"]["positions"] == [0]
 
 
+# Confirms that repeated words with different casing are indexed together.
 def test_index_is_case_insensitive():
     pages = [
         {
@@ -63,6 +65,7 @@ def test_multiple_words_indexed():
     assert index["world"]["page1"]["frequency"] == 1
 
 
+# Verifies tokenisation rules used by both indexing and searching.
 def test_tokenize_removes_punctuation_and_lowercases_words():
     result = tokenize("Good, GOOD! friends?")
 
@@ -88,6 +91,7 @@ def test_build_inverted_index_handles_empty_page_text():
     assert index == {}
 
 
+# Checks that the compiled index can be saved and loaded correctly.
 def test_save_and_load_index_round_trip(tmp_path):
     index = {
         "life": {
@@ -106,6 +110,7 @@ def test_save_and_load_index_round_trip(tmp_path):
     assert loaded_index == index
 
 
+# Ensures a clear error is raised when loading before building an index.
 def test_load_index_raises_file_not_found_for_missing_file(tmp_path):
     missing_file = tmp_path / "missing_index.json"
 

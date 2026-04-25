@@ -1,12 +1,13 @@
 from pathlib import Path
 import sys
 
-# Make src/ importable
+# Make src/ importable when running pytest from the project root.
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
 
 from search import find_query, print_word
 
 
+ # Shared sample index used across search tests.
 def sample_index():
     return {
         "life": {
@@ -26,6 +27,7 @@ def sample_index():
     }
 
 
+ # Verifies direct lookup of an indexed word.
 def test_print_word_returns_entry_for_existing_word():
     index = sample_index()
 
@@ -53,6 +55,7 @@ def test_print_word_returns_none_for_missing_word():
     assert result is None
 
 
+ # Empty or whitespace-only input should not produce a lookup.
 def test_print_word_returns_none_for_empty_word():
     index = sample_index()
 
@@ -61,6 +64,7 @@ def test_print_word_returns_none_for_empty_word():
     assert result is None
 
 
+ # Multi-word queries should return only matching pages ranked by score.
 def test_find_query_returns_pages_containing_all_words_ranked_by_score():
     index = sample_index()
 
@@ -85,6 +89,7 @@ def test_find_query_returns_empty_list_for_empty_query():
     assert result == []
 
 
+ # Query processing should ignore letter casing and punctuation.
 def test_find_query_is_case_insensitive():
     index = sample_index()
 

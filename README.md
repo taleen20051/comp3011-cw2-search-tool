@@ -1,5 +1,7 @@
 # COMP3011 Coursework 2 – Search Engine Tool
 
+Python | Pytest | Web Crawling | Search Engine | COMP3011 Coursework
+
 ## Project Overview
 
 This project was developed for **COMP3011: Web Services and Web Data**.
@@ -58,13 +60,15 @@ comp3011-cw2-search-tool/
 
 ### **1. Clone Repository**
 
-git clone `<your-github-repository-url>`
+git clone https://github.com/taleen20051/comp3011-cw2-search-tool.git
 cd comp3011-cw2-search-tool
 
 ### **2. Create Virtual Environment**
 
+```
 python3 -m venv venv
 source venv/bin/activate
+```
 
 ### **3. Install Dependencies**
 

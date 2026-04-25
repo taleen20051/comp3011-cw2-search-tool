@@ -4,14 +4,14 @@ import requests
 
 from bs4 import BeautifulSoup
 
-# Make src/ importable when running pytest from project root
+# Make src/ importable when running pytest from the project root.
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
 
 from crawler import crawl_website, extract_page_text, find_next_page_url
 
 
 class MockResponse:
-    """Simple mock response object for requests.get()."""
+    # Minimal mock response used to test crawler behaviour without live requests.
 
     def __init__(self, html_text, status_code=200):
         self.text = html_text
@@ -111,6 +111,7 @@ def test_crawl_website_returns_multiple_mocked_pages(monkeypatch):
     def mock_sleep(seconds):
         sleep_calls.append(seconds)
 
+    # Replace external network and delay behaviour with controlled test doubles.
     monkeypatch.setattr("crawler.requests.get", mock_get)
     monkeypatch.setattr("crawler.time.sleep", mock_sleep)
 
@@ -124,6 +125,7 @@ def test_crawl_website_returns_multiple_mocked_pages(monkeypatch):
     assert result[1]["url"] == "https://quotes.toscrape.com/page/2/"
     assert result[1]["text"] == "Second page quote."
 
+    # The politeness delay should occur once, between page 1 and page 2.
     assert sleep_calls == [6]
 
 

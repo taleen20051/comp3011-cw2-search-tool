@@ -1,6 +1,4 @@
-"""
-Indexer module for building, saving, and loading an inverted index.
-"""
+# Indexer module for building, saving, and loading an inverted index.
 
 import json
 import os
@@ -8,28 +6,12 @@ import re
 
 
 def tokenize(text):
-    """
-    Convert raw text into lowercase word tokens.
-
-    Punctuation is removed and the search is case-insensitive.
-    """
+    # Convert text into lowercase word tokens and remove punctuation.
     return re.findall(r"\b\w+\b", text.lower())
 
 
 def build_inverted_index(pages):
-    """
-    Build an inverted index from crawled pages.
-
-    Structure:
-    {
-        "word": {
-            "page_url": {
-                "frequency": int,
-                "positions": [int, int, ...]
-            }
-        }
-    }
-    """
+    # Build an inverted index storing frequency and positions for each word.
     index = {}
 
     for page in pages:
@@ -46,6 +28,7 @@ def build_inverted_index(pages):
                     "positions": [],
                 }
 
+            # Update word statistics for this page.
             index[word][url]["frequency"] += 1
             index[word][url]["positions"].append(position)
 
@@ -53,9 +36,7 @@ def build_inverted_index(pages):
 
 
 def save_index(index, filepath="data/index.json"):
-    """
-    Save the inverted index to a JSON file.
-    """
+    # Save the compiled index to the file system as JSON.
     directory = os.path.dirname(str(filepath))
     if directory:
         os.makedirs(directory, exist_ok=True)
@@ -67,9 +48,7 @@ def save_index(index, filepath="data/index.json"):
 
 
 def load_index(filepath="data/index.json"):
-    """
-    Load the inverted index from a JSON file.
-    """
+    # Load a previously saved index from the file system.
     if not os.path.exists(filepath):
         raise FileNotFoundError("Index file not found. Run 'build' first.")
 
