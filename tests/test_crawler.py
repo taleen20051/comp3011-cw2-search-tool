@@ -1,13 +1,13 @@
 from pathlib import Path
 import sys
+import requests
 
-import pytest
 from bs4 import BeautifulSoup
 
 # Make src/ importable when running pytest from project root
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
 
-from crawler import extract_page_text, find_next_page_url, crawl_website
+from crawler import crawl_website, extract_page_text, find_next_page_url
 
 
 class MockResponse:
@@ -19,7 +19,7 @@ class MockResponse:
 
     def raise_for_status(self):
         if self.status_code >= 400:
-            raise Exception(f"HTTP error: {self.status_code}")
+            raise requests.RequestException(f"HTTP error: {self.status_code}")
 
 
 def test_extract_page_text_returns_all_quotes():
@@ -124,5 +124,26 @@ def test_crawl_website_returns_multiple_mocked_pages(monkeypatch):
     assert result[1]["url"] == "https://quotes.toscrape.com/page/2/"
     assert result[1]["text"] == "Second page quote."
 
-    # Sleep should happen only once, between page 1 and page 2
     assert sleep_calls == [6]
+
+
+def test_crawl_website_stops_gracefully_on_request_error(monkeypatch):
+    def mock_get(url, timeout):
+        raise requests.RequestException("Network failure")
+
+    monkeypatch.setattr("crawler.requests.get", mock_get)
+
+    result = crawl_website()
+
+    assert result == []
+
+
+def test_crawl_website_stops_gracefully_on_http_error(monkeypatch):
+    def mock_get(url, timeout):
+        return MockResponse("<html></html>", status_code=500)
+
+    monkeypatch.setattr("crawler.requests.get", mock_get)
+
+    result = crawl_website()
+
+    assert result == []

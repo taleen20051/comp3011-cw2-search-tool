@@ -4,7 +4,7 @@ import sys
 # Make src/ importable
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
 
-from search import print_word, find_query
+from search import find_query, print_word
 
 
 def sample_index():
@@ -53,6 +53,14 @@ def test_print_word_returns_none_for_missing_word():
     assert result is None
 
 
+def test_print_word_returns_none_for_empty_word():
+    index = sample_index()
+
+    result = print_word(index, "   ")
+
+    assert result is None
+
+
 def test_find_query_returns_pages_containing_all_words_ranked_by_score():
     index = sample_index()
 
@@ -75,3 +83,27 @@ def test_find_query_returns_empty_list_for_empty_query():
     result = find_query(index, "")
 
     assert result == []
+
+
+def test_find_query_is_case_insensitive():
+    index = sample_index()
+
+    result = find_query(index, "GOOD FRIENDS")
+
+    assert result == [("page5", 5), ("page1", 2)]
+
+
+def test_find_query_ignores_punctuation():
+    index = sample_index()
+
+    result = find_query(index, "good, friends!")
+
+    assert result == [("page5", 5), ("page1", 2)]
+
+
+def test_find_query_returns_single_word_results_ranked_by_frequency():
+    index = sample_index()
+
+    result = find_query(index, "good")
+
+    assert result == [("page5", 3), ("page1", 1), ("page3", 1)]
