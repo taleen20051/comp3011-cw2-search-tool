@@ -1,0 +1,14 @@
+COMP3011 Coursework 2 Submission
+Student Name: Taleen Abubaker
+
+1. Video Demonstration Link:
+https://leeds365-my.sharepoint.com/:v:/g/personal/sc23taaa_leeds_ac_uk/IQDea3_vjUxPRqlzWr9ESOzkAeIr7MoORWgy-Cg0fWhKAuk?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=95v5Is
+
+2. GitHub Repository URL:
+https://github.com/taleen20051/comp3011-cw2-search-tool
+
+3. Compiled Index File:
+Attached separately as data/index.json
+
+Declaration:
+GenAI tools were used and evaluated within the video demonstration in accordance with the assessment brief.
